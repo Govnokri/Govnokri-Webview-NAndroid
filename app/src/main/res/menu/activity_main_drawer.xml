@@ -2,20 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_1" android:icon="@mipmap/house204"
-            android:title="WebView Local HTML" />
-        <item android:id="@+id/nav_2" android:icon="@mipmap/web58"
-            android:title="WebView Remote URL" />
-        <item android:id="@+id/nav_3" android:icon="@mipmap/lightbulbs"
-            android:title="Interactive WebView" />
+        <item android:id="@+id/home" android:icon="@mipmap/home" android:title="Home" />
+        <item android:id="@+id/about_us" android:icon="@mipmap/about_us" android:title="About Us" />
+        <item android:id="@+id/our_services" android:icon="@mipmap/services" android:title="Our Services" />
+        <item android:id="@+id/contacts" android:icon="@mipmap/contacts" android:title="Contacts" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Example">
         <menu>
-            <item android:id="@+id/nav_share" android:icon="@android:drawable/ic_menu_share"
-                android:title="Share" />
-            <item android:id="@+id/nav_send" android:icon="@android:drawable/ic_menu_send"
-                android:title="Send" />
+            <item android:id="@+id/nav_1" android:icon="@mipmap/local_html"
+                android:title="WebView Local HTML" />
+            <item android:id="@+id/nav_2" android:icon="@mipmap/web58"
+                android:title="WebView Remote URL" />
+            <item android:id="@+id/nav_3" android:icon="@mipmap/lightbulbs"
+                android:title="Interactive WebView" />
+            <item android:id="@+id/nav_4" android:icon="@mipmap/credits"
+                android:title="Credits" />
         </menu>
     </item>
 

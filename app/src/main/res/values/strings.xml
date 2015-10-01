@@ -2,8 +2,14 @@
     <string name="app_name">MyWebApp</string>
     <string name="splash_delay">1500</string>
 
+    <!-- Select the progress for webview -->
+    <string name="webview_dialog_progress">true</string>
+    <string name="webview_material_progress">false</string>
+
+    <!-- String for translate -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+
+
 </resources>
