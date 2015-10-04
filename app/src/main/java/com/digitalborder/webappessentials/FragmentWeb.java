@@ -1,4 +1,4 @@
-package com.nautilus.demo.mywebapp;
+package com.digitalborder.webappessentials;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;

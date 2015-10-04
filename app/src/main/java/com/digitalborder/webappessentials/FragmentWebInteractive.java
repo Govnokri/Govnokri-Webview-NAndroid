@@ -1,4 +1,4 @@
-package com.nautilus.demo.mywebapp;
+package com.digitalborder.webappessentials;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
