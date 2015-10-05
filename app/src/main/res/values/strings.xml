@@ -3,13 +3,14 @@
     <string name="splash_delay">1500</string>
 
 
-    <string name="analytics_property_id">UA-51553171-1</string>
+    <!-- Google Analytics OPTIONAL -->
+    <string name="analytics_property_id"></string>
 
     <!-- For use GCM you need to set your Google Api Project Number -->
-    <string name="google_api_sender_id">717452101860</string>
+    <string name="google_api_sender_id"></string>
 
     <!-- Server to register token (for push notification) OPTIONAL -->
-    <string name="server_url">http://pushpanel.h2-web.com/register.php</string>
+    <string name="server_url"></string>
 
     <!-- Select the progress for webview -->
     <string name="webview_dialog_progress">true</string>

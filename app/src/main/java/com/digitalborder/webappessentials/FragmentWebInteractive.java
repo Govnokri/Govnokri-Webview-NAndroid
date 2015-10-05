@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class FragmentWebInteractive extends Fragment {
     public MediaPlayer mp;
     public NotificationManager mNotificationManager;
     public WebView webView;
+    public SwipeRefreshLayout swipeContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +46,21 @@ public class FragmentWebInteractive extends Fragment {
 
         webView = (WebView) rootView.findViewById(R.id.webView);
 
+        swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                webView.reload();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -56,9 +73,9 @@ public class FragmentWebInteractive extends Fragment {
         pd.show();
 
         if (type.equals("file")) {
-
             webView.loadUrl("file:///android_asset/" + url);
-
+        } else if (type.equals("url")) {
+            webView.loadUrl(url);
         }
 
         webView.setWebViewClient(new MyWebViewClient());
@@ -72,8 +89,12 @@ public class FragmentWebInteractive extends Fragment {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
 
-            if (!pd.isShowing()) {
+            if (!pd.isShowing() && Boolean.valueOf(getString(R.string.webview_dialog_progress))) {
                 pd.show();
+            }
+
+            if (Boolean.valueOf(getString(R.string.webview_material_progress))) {
+                swipeContainer.setRefreshing(true);
             }
 
             return true;
@@ -86,6 +107,15 @@ public class FragmentWebInteractive extends Fragment {
                 pd.dismiss();
             }
 
+            if (swipeContainer.isRefreshing()) {
+                swipeContainer.setRefreshing(false);
+            }
+
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            webView.loadUrl("file:///android_asset/error.html");
         }
     }
 

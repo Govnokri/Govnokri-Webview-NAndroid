@@ -11,17 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
             bundle.putString("url", "home.html");
-            Fragment fragment = new FragmentWeb();
+            Fragment fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
@@ -104,15 +102,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    /*@Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -131,7 +120,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -148,7 +137,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
             bundle.putString("url", "home.html");
-            fragment = new FragmentWeb();
+            fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
 
         } else if (id == R.id.about_us) {
@@ -156,7 +145,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
             bundle.putString("url", "about_us.html");
-            fragment = new FragmentWeb();
+            fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
 
         } else if (id == R.id.our_services) {
@@ -164,7 +153,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
             bundle.putString("url", "services.html");
-            fragment = new FragmentWeb();
+            fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
 
         } else if (id == R.id.contacts) {
@@ -172,7 +161,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
             bundle.putString("url", "contacts.html");
-            fragment = new FragmentWeb();
+            fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
 
         }
@@ -181,30 +170,30 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.nav_1) {
 
-                // ---------------------------------  Load WebiView with Local URL -------------------- //
-                Bundle bundle = new Bundle();
-                bundle.putString("type", "file");
-                bundle.putString("url", "local_file.html");
-                fragment = new FragmentWeb();
-                fragment.setArguments(bundle);
+            // ---------------------------------  Load WebiView with Local URL -------------------- //
+            Bundle bundle = new Bundle();
+            bundle.putString("type", "file");
+            bundle.putString("url", "local_file.html");
+            fragment = new FragmentWebInteractive();
+            fragment.setArguments(bundle);
 
-            } else if (id == R.id.nav_2) {
-                // ---------------------------------  Load WebiView with Remote URL -------------------- //
-                Bundle bundle = new Bundle();
-                bundle.putString("type", "url");
-                bundle.putString("url", "http://www.w3schools.com/");
-                fragment = new FragmentWeb();
-                fragment.setArguments(bundle);
+        } else if (id == R.id.nav_2) {
+            // ---------------------------------  Load WebiView with Remote URL -------------------- //
+            Bundle bundle = new Bundle();
+            bundle.putString("type", "url");
+            bundle.putString("url", "http://www.w3schools.com/");
+            fragment = new FragmentWebInteractive();
+            fragment.setArguments(bundle);
 
-            } else if (id == R.id.nav_3) {
-                // ---------------------------------  Load WebiView with Remote URL -------------------- //
-                Bundle bundle = new Bundle();
-                bundle.putString("type", "file");
-                bundle.putString("url", "interactive.html");
-                fragment = new FragmentWebInteractive();
-                fragment.setArguments(bundle);
+        } else if (id == R.id.nav_3) {
+            // ---------------------------------  Load WebiView with Remote URL -------------------- //
+            Bundle bundle = new Bundle();
+            bundle.putString("type", "file");
+            bundle.putString("url", "interactive.html");
+            fragment = new FragmentWebInteractive();
+            fragment.setArguments(bundle);
 
-            } else if (id == R.id.nav_4) {
+        } else if (id == R.id.nav_4) {
             // ---------------------------------  Load WebiView with Remote URL -------------------- //
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
@@ -215,7 +204,6 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
 
@@ -224,6 +212,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
@@ -248,7 +237,7 @@ public class MainActivity extends AppCompatActivity
      * {@code SharedPreferences}.
      *
      * @param context application's context.
-     * @param regId registration ID
+     * @param regId   registration ID
      */
     private void storeRegistrationId(Context context, String regId) {
         int appVersion = getAppVersion(context);
@@ -261,11 +250,11 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Gets the current registration ID for application on GCM service, if there is one.
-     * <p>
+     * <p/>
      * If result is empty, the app needs to register.
      *
      * @return registration ID, or empty string if there is no existing
-     *         registration ID.
+     * registration ID.
      */
     private String getRegistrationId(Context context) {
         String registrationId = preferences.getString(PROPERTY_REG_ID, "");
@@ -287,7 +276,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Registers the application with GCM servers asynchronously.
-     * <p>
+     * <p/>
      * Stores the registration ID and the app versionCode in the application's
      * shared preferences.
      */
@@ -302,7 +291,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     reg_cgm_id = gcm.register(getString(R.string.google_api_sender_id));
                     msg = "Device registered, registration ID=" + reg_cgm_id;
-                    Log.d(TAG, "ID GCM: "+reg_cgm_id);
+                    Log.d(TAG, "ID GCM: " + reg_cgm_id);
 
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
