@@ -21,14 +21,18 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.digitalborder.webappessentials.R;
 import com.digitalborder.webappessentials.SplashActivity;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
  * This {@code IntentService} does the actual handling of the GCM message.
@@ -46,6 +50,7 @@ public class GcmIntentService extends IntentService {
         super("GcmIntentService");
     }
 
+    private SharedPreferences preferences;
     public static final String TAG = "GCM CC";
 
     @Override
@@ -56,6 +61,7 @@ public class GcmIntentService extends IntentService {
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
             /*
              * Filter messages based on message type. Since it is likely that GCM will be
@@ -99,10 +105,25 @@ public class GcmIntentService extends IntentService {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(msg))
+                        .bigText(msg))
                 .setContentText(msg);
 
-        mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        // Set the notification vibrate option
+        if (preferences.getBoolean("notifications_new_message_vibrate", true)) {
+            mBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        }
+        // Set the notification ringtone
+        if (preferences.getString("notifications_new_message_ringtone", null) != null) {
+            mBuilder.setSound(Uri.parse(preferences.getString("notifications_new_message_ringtone", null)));
+        } else {
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            mBuilder.setSound(alarmSound);
+        }
+
+        // Show only if the notification are enabled
+        if (preferences.getBoolean("notifications_new_message", true)) {
+            mBuilder.setContentIntent(contentIntent);
+            mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        }
     }
 }

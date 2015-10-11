@@ -2,14 +2,12 @@ package com.digitalborder.webappessentials;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.util.HashMap;
 

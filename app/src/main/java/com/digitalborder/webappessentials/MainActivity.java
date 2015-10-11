@@ -1,8 +1,7 @@
 package com.digitalborder.webappessentials;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +11,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +23,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public boolean doubleBackToExitPressedOnce = false;
+    private InterstitialAd mInterstitialAd;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -83,7 +89,7 @@ public class MainActivity extends AppCompatActivity
             bundle.putString("url", "home.html");
             Fragment fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
-            FragmentManager fragmentManager = getFragmentManager();
+            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
         }
 
@@ -100,6 +106,59 @@ public class MainActivity extends AppCompatActivity
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
 
+        // ADMOB
+        // Show the ad if it's ready. Otherwise toast and reload the ad.
+        AdView adView = (AdView) findViewById(R.id.adView);
+        mInterstitialAd = newInterstitialAd();
+        AdRequest adRequest = new AdRequest.Builder().setRequestAgent("android_studio:ad_template").addTestDevice("25099E5E5E22BA180F82C85C2279266C").build();
+        mInterstitialAd.loadAd(adRequest);
+        adView.loadAd(adRequest);
+    }
+
+    public void LoadAds() {
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+            }
+        });
+
+    }
+
+    public void showInterstitial() {
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+            }
+        });
+
+    }
+
+    private InterstitialAd newInterstitialAd() {
+        InterstitialAd interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+
+            }
+
+            @Override
+            public void onAdClosed() {
+
+            }
+        });
+        return interstitialAd;
     }
 
     @Override
@@ -148,21 +207,17 @@ public class MainActivity extends AppCompatActivity
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
 
-        } else if (id == R.id.our_services) {
+        } else if (id == R.id.portfolio) {
 
             Bundle bundle = new Bundle();
             bundle.putString("type", "file");
-            bundle.putString("url", "services.html");
+            bundle.putString("url", "portfolio.html");
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
 
         } else if (id == R.id.contacts) {
 
-            Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "contacts.html");
-            fragment = new FragmentWebInteractive();
-            fragment.setArguments(bundle);
+            fragment = new FragmentContacts();
 
         }
 
@@ -170,12 +225,9 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.nav_1) {
 
-            // ---------------------------------  Load WebiView with Local URL -------------------- //
-            Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "local_file.html");
-            fragment = new FragmentWebInteractive();
-            fragment.setArguments(bundle);
+            Intent i = new Intent(getBaseContext(), SettingsActivity.class);
+            startActivity(i);
+            return true;
 
         } else if (id == R.id.nav_2) {
             // ---------------------------------  Load WebiView with Remote URL -------------------- //
@@ -203,10 +255,8 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

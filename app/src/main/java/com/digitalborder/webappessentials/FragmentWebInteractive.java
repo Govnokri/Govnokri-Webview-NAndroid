@@ -1,19 +1,20 @@
 package com.digitalborder.webappessentials;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Fragment;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,20 +33,24 @@ public class FragmentWebInteractive extends Fragment {
     public NotificationManager mNotificationManager;
     public WebView webView;
     public SwipeRefreshLayout swipeContainer;
+    private SharedPreferences preferences;
+    public String loader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         my_context = container.getContext();
         rootView = inflater.inflate(R.layout.fragment_web, container, false);
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(my_context);
 
         String type = getArguments().getString("type");
         String url = getArguments().getString("url");
 
 
         webView = (WebView) rootView.findViewById(R.id.webView);
+        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
+        // --------------- SWIPE CONTAINER ---------------
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -61,17 +66,34 @@ public class FragmentWebInteractive extends Fragment {
                 android.R.color.holo_red_light);
 
 
+        // ------------------ WEBVIEW SETTINGS  --------------------
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
 
-        webView.addJavascriptInterface(new WebAppInterface(my_context), "WebAppInterface");
-        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        // GET PREFERENCES
+        if (preferences.getBoolean("pref_webview_cache", true)) {
+            enableHTML5AppCache();
+        }
+        if (preferences.getBoolean("pref_webview_javascript", true)) {
+            webSettings.setJavaScriptEnabled(true);
+            webView.addJavascriptInterface(new WebAppInterface(my_context), "WebAppInterface");
+        }
 
-
+        // -------------------- LOADER ------------------------
         pd = new ProgressDialog(my_context);
         pd.setMessage("Please wait Loading...");
-        pd.show();
 
+
+        loader = preferences.getString("pref_webview_loader_list", "dialog");
+
+        if (loader.equals("pull")) {
+            swipeContainer.setRefreshing(true);
+        } else if (loader.equals("dialog")) {
+            pd.show();
+        } else if (loader.equals("never")) {
+            Log.d("WebView", "No Loader selected");
+        }
+
+        // ---------------- LOADING CONTENT -----------------
         if (type.equals("file")) {
             webView.loadUrl("file:///android_asset/" + url);
         } else if (type.equals("url")) {
@@ -84,17 +106,28 @@ public class FragmentWebInteractive extends Fragment {
 
     }
 
+    private void enableHTML5AppCache() {
+
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setAppCachePath("/data/data/" + getActivity().getPackageName() + "/cache");
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+    }
+
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
 
-            if (!pd.isShowing() && Boolean.valueOf(getString(R.string.webview_dialog_progress))) {
-                pd.show();
-            }
-
-            if (Boolean.valueOf(getString(R.string.webview_material_progress))) {
+            if (loader.equals("pull")) {
                 swipeContainer.setRefreshing(true);
+            } else if (loader.equals("dialog")) {
+                if (!pd.isShowing()) {
+                    pd.show();
+                }
+            } else if (loader.equals("never")) {
+                Log.d("WebView", "No Loader selected");
             }
 
             return true;
@@ -110,9 +143,7 @@ public class FragmentWebInteractive extends Fragment {
             if (swipeContainer.isRefreshing()) {
                 swipeContainer.setRefreshing(false);
             }
-
         }
-
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             webView.loadUrl("file:///android_asset/error.html");
@@ -122,10 +153,19 @@ public class FragmentWebInteractive extends Fragment {
     public class WebAppInterface {
         Context mContext;
 
-        /** Instantiate the interface and set the context */
+        /**
+         * Instantiate the interface and set the context
+         */
         WebAppInterface(Context c) {
             mContext = c;
         }
+
+        // -------------------------------- SHOW AD ---------------------------------------
+        @JavascriptInterface
+        public void showAd() {
+            ((MainActivity) getActivity()).showInterstitial();
+        }
+
 
         // -------------------------------- SHOW TOAST ---------------------------------------
         @JavascriptInterface
@@ -190,8 +230,6 @@ public class FragmentWebInteractive extends Fragment {
                     .setAction("Action", null).show();
         }
     }
-
-
 
 
 }

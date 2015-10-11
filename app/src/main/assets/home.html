@@ -6,43 +6,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Home</title>
 
     <!-- Bootstrap core CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 
 </head>
-
 <body>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-    <div class="container">
-        <h1>Home</h1>
-        <p>Local Html (with Bootstrap 3.x)</p>
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <img src="http://placehold.it/1200x615" alt="...">
+
+            <div class="carousel-caption">
+                <h3>Nam ipsum risus</h3>
+            </div>
+        </div>
+        <div class="item">
+            <img src="http://placehold.it/1200x615" alt="...">
+
+            <div class="carousel-caption">
+                <h3>Pellentesque habitant</h3>
+            </div>
+        </div>
+        <div class="item">
+            <img src="http://placehold.it/1200x615" alt="...">
+
+            <div class="carousel-caption">
+                <h3>Curabitur ligula sapien</h3>
+            </div>
+        </div>
     </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" role="button"
+       data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button"
+       data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
 </div>
+<!-- Carousel -->
 
 <div class="container">
+    <h1>Welcome!</h1>
 
-    <div class="starter-template">
-        <h1>Example</h1>
+    <p>Questa Web App Essentials ti permetterà di pubblicare il tuo sito web, la tua web application
+        oppure il tuo progetto HTML Bootstrap in pochi minuti sullo store.</p>
 
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get
-            is this text and a mostly barebones HTML document.</p>
-    </div>
+    <h2>Bootstrap Integrated</h2>
+
+    <p>Se vuoi, puoi utilizzare bootstrap 3.x, già integrato, per creare le tue pagine web.</p>
+
+    <h2>Compatibility</h2>
+
+    <p>HTML5, CSS3, jQuery</p>
+
+    <h2>Push Web Panel</h2>
+
+    <p>Vuoi rimanere in contatto con i tuoi utenti? Invia delle push tramite il pannello web che
+        viene incluso!. </p>
+
+    <p>Prova subito una demo: <br/>
+        <a href="http://pushpanel.h2-web.com">http://pushpanel.h2-web.com</a>
+    </p>
+
 
 </div>
-
-
-<!-- /.container -->
 
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="bootstrap/js/jquery-1.11.3.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<script>
+    $('.carousel').carousel({
+        interval: 3000
+    })
+
+
+</script>
 </body>
 </html>

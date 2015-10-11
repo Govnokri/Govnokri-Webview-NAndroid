@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebAppEssentials</string>
+    <string name="app_name">Web App Essentials</string>
     <string name="splash_delay">1500</string>
 
 
@@ -7,18 +7,71 @@
     <string name="analytics_property_id"></string>
 
     <!-- For use GCM you need to set your Google Api Project Number -->
-    <string name="google_api_sender_id"></string>
+    <string name="google_api_sender_id">717452101860</string>
+    <string name="coordinate_lat">45.474188</string>
+    <string name="coordinate_long">9.189056</string>
+
+    <!-- For use Google Maps you need to set your Google Maps API Key -->
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyB-wUX_7HTGF4GXw5e3D09F0zERdes1kdc</string>
 
     <!-- Server to register token (for push notification) OPTIONAL -->
-    <string name="server_url"></string>
+    <string name="server_url">http://pushpanel.h2-web.com/register.php</string>
 
-    <!-- Select the progress for webview -->
-    <string name="webview_dialog_progress">true</string>
-    <string name="webview_material_progress">false</string>
+    <!-- AD Mob Publusher ID -->
+    <string name="interstitial_ad_unit_id">ca-app-pub-4749346084032970/2201337451</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
+    
+    <!-- ########################################## STRINGS ######################################  -->
     <!-- String for translate -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">WebView Settings</string>
+
+    <string name="pref_title_cache">Enable Cache</string>
+    <string name="pref_title_javascript">Enable Javascript</string>
+
+    <string name="pref_title_webview_loader">Loader option</string>
+    <string-array name="pref_webview_loader_titles">
+        <item>Pull-to-Refresh</item>
+        <item>Progress Dialog</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_webview_loader_values">
+        <item>pull</item>
+        <item>dialog</item>
+        <item>never</item>
+    </string-array>
+
+
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
+    <string name="start_level">Level 1</string>
+    <string name="next_level">Next Level</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main22">Main22Activity</string>
+
+
 
 
 
