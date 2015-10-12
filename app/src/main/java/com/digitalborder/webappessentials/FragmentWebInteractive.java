@@ -8,13 +8,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +53,7 @@ public class FragmentWebInteractive extends Fragment {
 
         webView = (WebView) rootView.findViewById(R.id.webView);
         webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        webView.canGoBack();
 
         // --------------- SWIPE CONTAINER ---------------
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
@@ -106,6 +111,7 @@ public class FragmentWebInteractive extends Fragment {
 
     }
 
+
     private void enableHTML5AppCache() {
 
         webView.getSettings().setDomStorageEnabled(true);
@@ -159,13 +165,6 @@ public class FragmentWebInteractive extends Fragment {
         WebAppInterface(Context c) {
             mContext = c;
         }
-
-        // -------------------------------- SHOW AD ---------------------------------------
-        @JavascriptInterface
-        public void showAd() {
-            ((MainActivity) getActivity()).showInterstitial();
-        }
-
 
         // -------------------------------- SHOW TOAST ---------------------------------------
         @JavascriptInterface

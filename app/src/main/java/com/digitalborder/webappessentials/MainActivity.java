@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
 
     public boolean doubleBackToExitPressedOnce = false;
     private InterstitialAd mInterstitialAd;
+    boolean first_fragment = false;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+            first_fragment = true;
         }
 
         // GCM
@@ -109,67 +111,25 @@ public class MainActivity extends AppCompatActivity
         // ADMOB
         // Show the ad if it's ready. Otherwise toast and reload the ad.
         AdView adView = (AdView) findViewById(R.id.adView);
-        mInterstitialAd = newInterstitialAd();
-        AdRequest adRequest = new AdRequest.Builder().setRequestAgent("android_studio:ad_template").addTestDevice("25099E5E5E22BA180F82C85C2279266C").build();
-        mInterstitialAd.loadAd(adRequest);
+        AdRequest adRequest = new AdRequest.Builder().setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
     }
 
-    public void LoadAds() {
-
-        runOnUiThread(new Runnable() {
-            public void run() {
-                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                }
-            }
-        });
-
-    }
-
-    public void showInterstitial() {
-
-        runOnUiThread(new Runnable() {
-            public void run() {
-                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                }
-            }
-        });
-
-    }
-
-    private InterstitialAd newInterstitialAd() {
-        InterstitialAd interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
-        interstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-
-            }
-
-            @Override
-            public void onAdClosed() {
-
-            }
-        });
-        return interstitialAd;
-    }
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
+            finish();
             return;
+        } else {
+            if (first_fragment == false) {
+                super.onBackPressed();
+            }
         }
 
         this.doubleBackToExitPressedOnce = true;
@@ -190,6 +150,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
+        first_fragment = false;
 
         if (id == R.id.home) {
 
@@ -256,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
