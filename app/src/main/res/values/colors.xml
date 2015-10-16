@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- See this page for understand colors https://developer.android.com/training/material/theme.html -->
+
 <resources>
     <!-- Standard version -->
     <color name="colorPrimary">#3F51B5</color>

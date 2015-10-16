@@ -42,8 +42,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public boolean doubleBackToExitPressedOnce = false;
-    private InterstitialAd mInterstitialAd;
-    boolean first_fragment = false;
+    private InterstitialAd interstitial;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences preferences;
     String reg_cgm_id;
     static final String TAG = "MainActivity";
+    private boolean first_fragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity
         // Go to first fragment
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "home.html");
+            bundle.putString("type", getString(R.string.home_type));
+            bundle.putString("url", getString(R.string.home_url));
             Fragment fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "FragmentWebInteractive").commit();
             first_fragment = true;
         }
 
@@ -108,13 +108,34 @@ public class MainActivity extends AppCompatActivity
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
 
-        // ADMOB
-        // Show the ad if it's ready. Otherwise toast and reload the ad.
+        // -------------------------------  AdMob Banner ------------------------------------------------------------
         AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().setRequestAgent("android_studio:ad_template").build();
         adView.loadAd(adRequest);
+
+        // -------------------------------- AdMob Interstitial ----------------------------
+        // Prepare the Interstitial Ad
+        interstitial = new InterstitialAd(MainActivity.this);
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        // Load ads into Interstitial Ads
+        interstitial.loadAd(adRequest);
+
+        // Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                // Call displayInterstitial() function
+                displayInterstitial();
+            }
+        });
     }
 
+    public void displayInterstitial() {
+        // If Ads are loaded, show Interstitial else show nothing.
+        if (interstitial.isLoaded()) {
+            interstitial.show();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -123,6 +144,15 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
+
+        Fragment webviewfragment = getSupportFragmentManager().findFragmentByTag("FragmentWebInteractive");
+        if (webviewfragment instanceof FragmentWebInteractive) {
+            if (((FragmentWebInteractive) webviewfragment).canGoBack()) {
+                ((FragmentWebInteractive) webviewfragment).GoBack();
+                return;
+            }
+        }
+
         if (doubleBackToExitPressedOnce) {
             finish();
             return;
@@ -141,7 +171,9 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        }, 1500);
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -150,36 +182,40 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
+        String tag = null;
         first_fragment = false;
 
         if (id == R.id.home) {
 
             Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "home.html");
+            bundle.putString("type", getString(R.string.home_type));
+            bundle.putString("url", getString(R.string.home_url));
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
+            tag = "FragmentWebInteractive";
+            first_fragment = true;
 
         } else if (id == R.id.about_us) {
 
             Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "about_us.html");
+            bundle.putString("type", getString(R.string.about_us_type));
+            bundle.putString("url", getString(R.string.about_us_url));
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
+            tag = "FragmentWebInteractive";
 
         } else if (id == R.id.portfolio) {
 
             Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "portfolio.html");
+            bundle.putString("type", getString(R.string.portfolio_type));
+            bundle.putString("url", getString(R.string.portfolio_url));
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
+            tag = "FragmentWebInteractive";
 
         } else if (id == R.id.contacts) {
-
             fragment = new FragmentContacts();
-
+            tag = "FragmentContacts";
         }
 
         // ##################### --------------- EXAMPLE ----------------------- #################
@@ -193,31 +229,34 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_2) {
             // ---------------------------------  Load WebiView with Remote URL -------------------- //
             Bundle bundle = new Bundle();
-            bundle.putString("type", "url");
-            bundle.putString("url", "http://www.w3schools.com/");
+            bundle.putString("type", getString(R.string.remote_type));
+            bundle.putString("url", getString(R.string.remote_url));
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
+            tag = "FragmentWebInteractive";
 
         } else if (id == R.id.nav_3) {
             // ---------------------------------  Load WebiView with Remote URL -------------------- //
             Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "interactive.html");
+            bundle.putString("type", getString(R.string.interactive_type));
+            bundle.putString("url", getString(R.string.interactive_url));
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
+            tag = "FragmentWebInteractive";
 
         } else if (id == R.id.nav_4) {
             // ---------------------------------  Load WebiView with Remote URL -------------------- //
             Bundle bundle = new Bundle();
-            bundle.putString("type", "file");
-            bundle.putString("url", "credits.html");
+            bundle.putString("type", getString(R.string.credits_type));
+            bundle.putString("url", getString(R.string.credits_url));
             fragment = new FragmentWebInteractive();
             fragment.setArguments(bundle);
+            tag = "FragmentWebInteractive";
 
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, tag).addToBackStack(null).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

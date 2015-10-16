@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -22,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -53,7 +55,6 @@ public class FragmentWebInteractive extends Fragment {
 
         webView = (WebView) rootView.findViewById(R.id.webView);
         webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        webView.canGoBack();
 
         // --------------- SWIPE CONTAINER ---------------
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
@@ -98,6 +99,18 @@ public class FragmentWebInteractive extends Fragment {
             Log.d("WebView", "No Loader selected");
         }
 
+        webView.setWebViewClient(new MyWebViewClient());
+
+        webView.setDownloadListener(new DownloadListener() {
+            public void onDownloadStart(String url, String userAgent,
+                                        String contentDisposition, String mimetype,
+                                        long contentLength) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
         // ---------------- LOADING CONTENT -----------------
         if (type.equals("file")) {
             webView.loadUrl("file:///android_asset/" + url);
@@ -105,12 +118,17 @@ public class FragmentWebInteractive extends Fragment {
             webView.loadUrl(url);
         }
 
-        webView.setWebViewClient(new MyWebViewClient());
-
         return rootView;
 
     }
 
+    public Boolean canGoBack() {
+        return webView.canGoBack();
+    }
+
+    public void GoBack() {
+        webView.goBack();
+    }
 
     private void enableHTML5AppCache() {
 
@@ -141,7 +159,6 @@ public class FragmentWebInteractive extends Fragment {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            System.out.println("on finish");
             if (pd.isShowing()) {
                 pd.dismiss();
             }
@@ -152,7 +169,7 @@ public class FragmentWebInteractive extends Fragment {
         }
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            webView.loadUrl("file:///android_asset/error.html");
+            webView.loadUrl("file:///android_asset/"+getString(R.string.error_page));
         }
     }
 

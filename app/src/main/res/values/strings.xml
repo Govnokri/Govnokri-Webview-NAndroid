@@ -1,27 +1,67 @@
 <resources>
-    <string name="app_name">Web App Essentials</string>
-    <string name="splash_delay">1500</string>
 
+    <string name="app_name">Web App Essentials</string>
+    <string name="app_payoff">Your Pay Off</string>
+
+    <!-- Splash screen delay (milliseconds) 1500 = 1,5 seconds -->
+    <string name="splash_delay">1500</string>
 
     <!-- Google Analytics OPTIONAL -->
     <string name="analytics_property_id"></string>
 
     <!-- For use GCM you need to set your Google Api Project Number -->
-    <string name="google_api_sender_id">717452101860</string>
-    <string name="coordinate_lat">40.708105</string>
-    <string name="coordinate_long">-74.006307</string>
+    <string name="google_api_sender_id"></string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyB-wUX_7HTGF4GXw5e3D09F0zERdes1kdc</string>
+    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve"></string>
+    <string name="coordinate_lat">40.708105</string>
+    <string name="coordinate_long">-74.006307</string>
 
     <!-- Server to register token (for push notification) OPTIONAL -->
     <string name="server_url">http://pushpanel.h2-web.com/register.php</string>
 
     <!-- AD Mob Publusher ID -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-4749346084032970/2201337451</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-4749346084032970/6631537051</string>
 
-    
+
+    <!-- ######################################### Page Configs ################################## -->
+
+                    <!-- Type: "url" for web remote pages, "file" for local pages -->
+
+    <string name="home_label">Home</string>
+    <string name="home_type">file</string>
+    <string name="home_url">home.html</string>
+
+    <string name="about_us_label">About US</string>
+    <string name="about_us_type">file</string>
+    <string name="about_us_url">about_us.html</string>
+
+    <string name="portfolio_label">Portfolio</string>
+    <string name="portfolio_type">file</string>
+    <string name="portfolio_url">portfolio.html</string>
+
+    <string name="contacts_label">Contacts</string>
+
+    <string name="second_category">Extra Features</string>
+    <string name="settings_label">Settings</string>
+
+    <string name="remote_label">WebView Remote URL</string>
+    <string name="remote_type">url</string>
+    <string name="remote_url">http://www.google.com/</string>
+
+    <string name="interactive_label">Interactive WebView</string>
+    <string name="interactive_type">file</string>
+    <string name="interactive_url">interactive.html</string>
+
+    <string name="credits_label">Credits</string>
+    <string name="credits_type">file</string>
+    <string name="credits_url">credits.html</string>
+
+    <!-- If you want, you can customize the error page! -->
+    <string name="error_page">error.html</string>
+
+
     <!-- ########################################## STRINGS ######################################  -->
     <!-- String for translate -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
