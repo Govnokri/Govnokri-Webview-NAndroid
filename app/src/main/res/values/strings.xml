@@ -4,33 +4,33 @@
     <string name="app_payoff">Your Pay Off</string>
 
     <!-- If you want to use RTL (right to left) version, set true -->
-    <string name="rtl_version">true</string>
+    <string name="rtl_version">false</string>
 
     <!-- Splash screen delay (milliseconds) 1500 = 1,5 seconds -->
-    <string name="splash_delay">1500</string>
+    <string name="splash_delay" translatable="false">1500</string>
 
     <!-- Google Analytics OPTIONAL -->
-    <string name="analytics_property_id"></string>
+    <string name="analytics_property_id" translatable="false"></string>
 
     <!-- For use GCM you need to set your Google Api Project Number -->
-    <string name="google_api_sender_id"></string>
+    <string name="google_api_sender_id" translatable="false">717452101860</string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve"></string>
-    <string name="coordinate_lat">40.708105</string>
-    <string name="coordinate_long">-74.006307</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyB-wUX_7HTGF4GXw5e3D09F0zERdes1kdc</string>
+    <string name="coordinate_lat" translatable="false">40.708105</string>
+    <string name="coordinate_long" translatable="false">-74.006307</string>
 
     <!-- Server to register token (for push notification) OPTIONAL -->
     <string name="server_url">http://pushpanel.h2-web.com/register.php</string>
 
     <!-- AD Mob Publusher ID -->
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_ad_unit_id">ca-app-pub-4749346084032970/6631537051</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-4749346084032970/6631537051</string>
 
 
     <!-- ######################################### Page Configs ################################## -->
 
-                    <!-- Type: "url" for web remote pages, "file" for local pages -->
+    <!-- Type: "url" for web remote pages, "file" for local pages -->
 
     <string name="home_label">Home</string>
     <string name="home_type">file</string>
@@ -45,6 +45,8 @@
     <string name="portfolio_url">portfolio.html</string>
 
     <string name="contacts_label">Contacts</string>
+    <string name="contacts_type">file</string>
+    <string name="contacts_url">contacts.html</string>
 
     <string name="second_category">Extra Features</string>
     <string name="settings_label">Settings</string>
@@ -67,6 +69,8 @@
 
     <!-- ########################################## STRINGS ######################################  -->
     <!-- String for translate -->
+    <string name="share">Share</string>
+    <string name="share_text">Hello, look what a beautiful app that I found here: </string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_maps">Map</string>
@@ -93,7 +97,6 @@
     </string-array>
 
 
-
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 
@@ -103,19 +106,10 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
     <string name="action_settings">Settings</string>
 
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
-    <string name="start_level">Level 1</string>
-    <string name="next_level">Next Level</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_main22">Main22Activity</string>
-
-
-
 
 
 </resources>

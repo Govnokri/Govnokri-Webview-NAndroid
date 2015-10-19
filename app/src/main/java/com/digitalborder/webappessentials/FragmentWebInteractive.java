@@ -9,17 +9,13 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +107,11 @@ public class FragmentWebInteractive extends Fragment {
             }
         });
 
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setSupportZoom(true);
+
         // ---------------- LOADING CONTENT -----------------
         if (type.equals("file")) {
             webView.loadUrl("file:///android_asset/" + url);
@@ -131,13 +132,12 @@ public class FragmentWebInteractive extends Fragment {
     }
 
     private void enableHTML5AppCache() {
-
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setAppCachePath("/data/data/" + getActivity().getPackageName() + "/cache");
-        webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
+
 
     private class MyWebViewClient extends WebViewClient {
         @Override
@@ -167,9 +167,10 @@ public class FragmentWebInteractive extends Fragment {
                 swipeContainer.setRefreshing(false);
             }
         }
+
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            webView.loadUrl("file:///android_asset/"+getString(R.string.error_page));
+            webView.loadUrl("file:///android_asset/" + getString(R.string.error_page));
         }
     }
 

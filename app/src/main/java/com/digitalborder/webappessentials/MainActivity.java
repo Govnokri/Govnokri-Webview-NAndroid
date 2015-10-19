@@ -13,12 +13,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity
 
     public boolean doubleBackToExitPressedOnce = false;
     private InterstitialAd interstitial;
+    private ShareActionProvider mShareActionProvider;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -135,6 +141,18 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
+
+    /*private void onShareAction(){
+        // Create the share Intent
+        String playStoreLink = "https://play.google.com/store/apps/details?id=" + getPackageName();
+        String yourShareText = getResources().getString(R.string.share_text) + playStoreLink;
+        Intent shareIntent = ShareCompat.IntentBuilder.from(this).setType("text/plain").setText(yourShareText).getIntent();
+        // Set the share Intent
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }*/
 
     public void displayInterstitial() {
         // If Ads are loaded, show Interstitial else show nothing.

@@ -46,7 +46,12 @@ public class FragmentContacts extends Fragment implements OnMapReadyCallback {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        webView.loadUrl("file:///android_asset/contacts.html");
+
+        if (getString(R.string.contacts_type).equals("file")) {
+            webView.loadUrl("file:///android_asset/" + getString(R.string.contacts_url));
+        }  else if (getString(R.string.contacts_type).equals("url")) {
+            webView.loadUrl(getString(R.string.contacts_url));
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
