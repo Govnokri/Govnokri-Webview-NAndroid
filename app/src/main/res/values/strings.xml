@@ -4,7 +4,7 @@
     <string name="app_payoff">Your Pay Off</string>
 
     <!-- If you want to use RTL (right to left) version, set true -->
-    <string name="rtl_version">false</string>
+    <string name="rtl_version">true</string>
 
     <!-- Splash screen delay (milliseconds) 1500 = 1,5 seconds -->
     <string name="splash_delay">1500</string>
