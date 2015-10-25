@@ -30,6 +30,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.digitalborder.webappessentials.MainActivity;
 import com.digitalborder.webappessentials.R;
 import com.digitalborder.webappessentials.SplashActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -80,8 +81,9 @@ public class GcmIntentService extends IntentService {
                 // Post notification of received message.
                 String title = extras.getString("title", null);
                 String message = extras.getString("description", null);
+                String link = extras.getString("link", null);
 
-                sendNotification(title, message);
+                sendNotification(title, message, link);
 
                 Log.i(TAG, "Received: " + extras.toString());
             }
@@ -94,11 +96,13 @@ public class GcmIntentService extends IntentService {
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
-    private void sendNotification(String title, String msg) {
+    private void sendNotification(String title, String msg, String link) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, SplashActivity.class), 0);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("link", link);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setLargeIcon(BitmapFactory.decodeResource(getBaseContext().getResources(), R.mipmap.ic_launcher))

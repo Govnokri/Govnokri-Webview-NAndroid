@@ -96,7 +96,25 @@ public class MainActivity extends AppCompatActivity
         });
 
         // Go to first fragment
-        if (savedInstanceState == null) {
+        Intent intent = getIntent();
+        if (intent.getExtras() != null && intent.getExtras().getString("link", null) != null && !intent.getExtras().getString("link", null).equals("")) {
+            String url = null;
+            if (intent.getExtras().getString("link").contains("http")) {
+                url = intent.getExtras().getString("link");
+            } else {
+                url = "http://"+intent.getExtras().getString("link");
+            }
+
+            Bundle bundle = new Bundle();
+            bundle.putString("type", "url");
+            bundle.putString("url", url);
+            Fragment fragment = new FragmentWebInteractive();
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment, "FragmentWebInteractive").commit();
+            first_fragment = true;
+
+        } else if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putString("type", getString(R.string.home_type));
             bundle.putString("url", getString(R.string.home_url));

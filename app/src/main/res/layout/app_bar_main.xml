@@ -32,7 +32,8 @@
         android:layout_marginLeft="@dimen/fab_margin_left"
         android:layout_marginRight="@dimen/fab_margin_right"
         android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:src="@mipmap/menu48" />
+        android:src="@mipmap/menu48"
+        android:visibility="visible" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -108,7 +108,6 @@ public class FragmentWebInteractive extends Fragment {
         });
 
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setSupportZoom(true);
 

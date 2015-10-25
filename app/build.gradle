@@ -8,8 +8,8 @@ android {
         applicationId "com.digitalborder.webappessentials"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.5"
+        versionCode 7
+        versionName "1.7"
     }
     buildTypes {
         release {
