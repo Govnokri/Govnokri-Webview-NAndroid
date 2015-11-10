@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity
         interstitial = new InterstitialAd(MainActivity.this);
         // Insert the Ad Unit ID
         interstitial.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+
         // Load ads into Interstitial Ads
         interstitial.loadAd(adRequest);
 
@@ -155,7 +156,15 @@ public class MainActivity extends AppCompatActivity
         interstitial.setAdListener(new AdListener() {
             public void onAdLoaded() {
                 // Call displayInterstitial() function
-                displayInterstitial();
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                displayInterstitial();
+                                Log.i("tag", "This'll run 300 milliseconds later");
+                            }
+                        },
+                Integer.parseInt(getString(R.string.admob_interstiial_delay)));
+
             }
         });
     }

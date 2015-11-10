@@ -16,7 +16,7 @@
     <string name="google_api_sender_id" translatable="false">717452101860</string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyB-wUX_7HTGF4GXw5e3D09F0zERdes1kdc</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAAZ9I19vCCvbFDZwdh344ZuvHvr-uQW64</string>
     <string name="coordinate_lat" translatable="false">40.708105</string>
     <string name="coordinate_long" translatable="false">-74.006307</string>
 
@@ -24,6 +24,7 @@
     <string name="server_url">http://pushpanel.h2-web.com/register.php</string>
 
     <!-- AD Mob Publusher ID -->
+    <string name="admob_interstiial_delay">10000</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-4749346084032970/6631537051</string>
 
