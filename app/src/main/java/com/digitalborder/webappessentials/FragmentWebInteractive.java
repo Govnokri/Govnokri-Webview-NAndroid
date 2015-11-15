@@ -118,6 +118,11 @@ public class FragmentWebInteractive extends Fragment {
             webView.loadUrl(url);
         }
 
+        //Update menu item on navigation drawer when press back button
+        if (getArguments().getInt("item_position",99) != 99) {
+            ((MainActivity) getActivity()).SetItemChecked(getArguments().getInt("item_position"));
+        }
+
         return rootView;
 
     }

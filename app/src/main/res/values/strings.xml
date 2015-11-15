@@ -16,7 +16,7 @@
     <string name="google_api_sender_id" translatable="false">717452101860</string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAAZ9I19vCCvbFDZwdh344ZuvHvr-uQW64</string>
+    <string name="gmap_key">AIzaSyANCTmfWPix6ybkSicTCNBvK91bmpoRvGw</string>
     <string name="coordinate_lat" translatable="false">40.708105</string>
     <string name="coordinate_long" translatable="false">-74.006307</string>
 

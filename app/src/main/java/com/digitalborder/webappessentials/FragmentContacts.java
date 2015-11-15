@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -35,11 +36,15 @@ public class FragmentContacts extends Fragment implements OnMapReadyCallback {
     public SwipeRefreshLayout swipeContainer;
     private GoogleMap mMap;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        }
+
         my_context = container.getContext();
-        rootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
 
         webView = (WebView) rootView.findViewById(R.id.webView);
@@ -55,6 +60,9 @@ public class FragmentContacts extends Fragment implements OnMapReadyCallback {
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Update menu item on navigation drawer when press back button
+        ((MainActivity) getActivity()).SetItemChecked(3);
 
 
         return rootView;

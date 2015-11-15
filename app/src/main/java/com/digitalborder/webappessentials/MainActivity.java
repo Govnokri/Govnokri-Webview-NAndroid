@@ -13,17 +13,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -49,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     public boolean doubleBackToExitPressedOnce = false;
     private InterstitialAd interstitial;
     private ShareActionProvider mShareActionProvider;
+    private NavigationView navigationView;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -102,7 +99,7 @@ public class MainActivity extends AppCompatActivity
             if (intent.getExtras().getString("link").contains("http")) {
                 url = intent.getExtras().getString("link");
             } else {
-                url = "http://"+intent.getExtras().getString("link");
+                url = "http://" + intent.getExtras().getString("link");
             }
 
             Bundle bundle = new Bundle();
@@ -160,13 +157,13 @@ public class MainActivity extends AppCompatActivity
                         new Runnable() {
                             public void run() {
                                 displayInterstitial();
-                                Log.i("tag", "This'll run 300 milliseconds later");
                             }
                         },
-                Integer.parseInt(getString(R.string.admob_interstiial_delay)));
+                        Integer.parseInt(getString(R.string.admob_interstiial_delay)));
 
             }
         });
+
     }
 
 
@@ -200,6 +197,8 @@ public class MainActivity extends AppCompatActivity
         if (webviewfragment instanceof FragmentWebInteractive) {
             if (((FragmentWebInteractive) webviewfragment).canGoBack()) {
                 ((FragmentWebInteractive) webviewfragment).GoBack();
+
+
                 return;
             }
         }
@@ -239,6 +238,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.home) {
 
             Bundle bundle = new Bundle();
+            bundle.putInt("item_position", 0);
             bundle.putString("type", getString(R.string.home_type));
             bundle.putString("url", getString(R.string.home_url));
             fragment = new FragmentWebInteractive();
@@ -249,6 +249,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.about_us) {
 
             Bundle bundle = new Bundle();
+            bundle.putInt("item_position", 1);
             bundle.putString("type", getString(R.string.about_us_type));
             bundle.putString("url", getString(R.string.about_us_url));
             fragment = new FragmentWebInteractive();
@@ -258,6 +259,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.portfolio) {
 
             Bundle bundle = new Bundle();
+            bundle.putInt("item_position", 2);
+            bundle.putSerializable("item_id", R.id.portfolio);
             bundle.putString("type", getString(R.string.portfolio_type));
             bundle.putString("url", getString(R.string.portfolio_url));
             fragment = new FragmentWebInteractive();
@@ -272,7 +275,6 @@ public class MainActivity extends AppCompatActivity
         // ##################### --------------- EXAMPLE ----------------------- #################
 
         else if (id == R.id.nav_1) {
-
             Intent i = new Intent(getBaseContext(), SettingsActivity.class);
             startActivity(i);
             return true;
@@ -315,6 +317,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void SetItemChecked(int position) {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(position).setChecked(true);
+    }
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
