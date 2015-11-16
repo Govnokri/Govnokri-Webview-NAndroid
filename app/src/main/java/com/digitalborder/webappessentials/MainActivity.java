@@ -38,6 +38,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     private InterstitialAd interstitial;
     private ShareActionProvider mShareActionProvider;
     private NavigationView navigationView;
+    public Timer AdTimer;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -56,6 +59,13 @@ public class MainActivity extends AppCompatActivity
     static final String TAG = "MainActivity";
     private boolean first_fragment = false;
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (AdTimer!=null) {
+            AdTimer.cancel();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,18 +159,23 @@ public class MainActivity extends AppCompatActivity
         // Load ads into Interstitial Ads
         interstitial.loadAd(adRequest);
 
+        AdTimer = new Timer();
+
         // Prepare an Interstitial Ad Listener
         interstitial.setAdListener(new AdListener() {
             public void onAdLoaded() {
-                // Call displayInterstitial() function
-                new android.os.Handler().postDelayed(
-                        new Runnable() {
+                // Call displayInterstitial() function with timer
+                AdTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
                             public void run() {
                                 displayInterstitial();
                             }
-                        },
-                        Integer.parseInt(getString(R.string.admob_interstiial_delay)));
-
+                        });
+                    }
+                }, Integer.parseInt(getString(R.string.admob_interstiial_delay)));
             }
         });
 
