@@ -17,9 +17,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -41,12 +42,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public boolean doubleBackToExitPressedOnce = false;
     private InterstitialAd interstitial;
-    private ShareActionProvider mShareActionProvider;
     private NavigationView navigationView;
     public Timer AdTimer;
 
@@ -62,10 +61,42 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if (AdTimer!=null) {
+        if (AdTimer != null) {
             AdTimer.cancel();
+            AdTimer = null;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.share_button:
+                try
+                { Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                    String sAux = getString(R.string.share_text)+"\n";
+                    sAux = sAux + getString(R.string.share_link)+"\n";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "choose one"));
+                }
+                catch(Exception e)
+                { //e.toString();
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,17 +196,19 @@ public class MainActivity extends AppCompatActivity
         interstitial.setAdListener(new AdListener() {
             public void onAdLoaded() {
                 // Call displayInterstitial() function with timer
-                AdTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                displayInterstitial();
-                            }
-                        });
-                    }
-                }, Integer.parseInt(getString(R.string.admob_interstiial_delay)));
+                if (AdTimer != null) {
+                    AdTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    displayInterstitial();
+                                }
+                            });
+                        }
+                    }, Integer.parseInt(getString(R.string.admob_interstiial_delay)));
+                }
             }
         });
 
