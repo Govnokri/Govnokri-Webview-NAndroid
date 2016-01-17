@@ -108,6 +108,7 @@ public class GcmIntentService extends IntentService {
                 .setLargeIcon(BitmapFactory.decodeResource(getBaseContext().getResources(), R.mipmap.ic_launcher))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
+                .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(msg))
                 .setContentText(msg);
