@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
@@ -32,7 +33,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -117,7 +120,7 @@ public class FragmentWebInteractive extends Fragment {
         }
 
 
-        webView.setWebViewClient(new MyWebViewClient());
+
 
         webView.setDownloadListener(new DownloadListener() {
             public void onDownloadStart(String url, String userAgent,
@@ -129,10 +132,14 @@ public class FragmentWebInteractive extends Fragment {
             }
         });
 
+
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setLoadWithOverviewMode(true);
+
 
 
         // ---------------- LOADING CONTENT -----------------
@@ -148,7 +155,6 @@ public class FragmentWebInteractive extends Fragment {
         }
 
         webView.setWebChromeClient(new WebChromeClient() {
-
             /**
              * This is the method used by Android 5.0+ to upload files towards a web form in a Webview
              *
@@ -157,6 +163,8 @@ public class FragmentWebInteractive extends Fragment {
              * @param fileChooserParams
              * @return
              */
+
+
             @Override
             public boolean onShowFileChooser(
                     WebView webView, ValueCallback<Uri[]> filePathCallback,
@@ -297,7 +305,7 @@ public class FragmentWebInteractive extends Fragment {
             }
 
         });
-
+        //webView.setWebViewClient(new MyWebViewClient());
         return rootView;
 
     }
@@ -482,7 +490,7 @@ public class FragmentWebInteractive extends Fragment {
 
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            //webView.loadUrl("file:///android_asset/" + getString(R.string.error_page));
+            webView.loadUrl("file:///android_asset/" + getString(R.string.error_page));
         }
     }
 

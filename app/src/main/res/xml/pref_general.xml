@@ -3,7 +3,7 @@
     <SwitchPreference
         android:key="pref_webview_cache"
         android:title="@string/pref_title_cache"
-        android:defaultValue="false" />
+        android:defaultValue="true" />
 
     <SwitchPreference
         android:key="pref_webview_javascript"

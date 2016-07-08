@@ -21,10 +21,13 @@
     <string name="coordinate_long" translatable="false">-74.006307</string>
 
     <!-- Server to register token (for push notification) OPTIONAL -->
-    <string name="server_url">http://pushpanel.h2-web.com/register.php</string>
+    <string name="db_field_token">user_android_token</string>
+    <string name="db_field_latitude">user_lat</string>
+    <string name="db_field_longitude">user_lon</string>
+    <string name="server_url">http://geopush.digitalborder.net/api/register_user</string>
 
     <!-- AD Mob Publusher ID -->
-    <string name="admob_interstiial_delay">10000</string>
+    <string name="admob_interstiial_delay">20000</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-4749346084032970/6631537051</string>
 
@@ -89,6 +92,8 @@
 
     <string name="pref_title_cache">Enable Cache</string>
     <string name="pref_title_javascript">Enable Javascript</string>
+    <string name="pref_title_geolocation">Update GPS Coordinates</string>
+    <string name="pref_title_gps_remoember">GPS Check Dialog</string>
 
     <string name="pref_title_webview_loader">Loader option</string>
     <string-array name="pref_webview_loader_titles">
@@ -102,9 +107,14 @@
         <item>never</item>
     </string-array>
 
+    <!-- GPS -->
+    <string name="gps_dialog_title">Geo-based push (optional)</string>
+    <string name="gps_dialog_message">Do you want receive Geo Push notifications? If you want to try the Geo Push Panel: http://goo.gl/gsj5nO</string>
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_header_geolocation">Geolocation</string>
 
     <string name="pref_title_new_message_notifications">New message notifications</string>
 

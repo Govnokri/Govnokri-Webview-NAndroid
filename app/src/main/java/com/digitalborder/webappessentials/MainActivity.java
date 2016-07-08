@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String reg_cgm_id;
     static final String TAG = "MainActivity";
     private boolean first_fragment = false;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onPause() {
@@ -172,6 +175,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.i(TAG, "Find Register ID.");
                 registerInBackground();
             }
+            if (preferences.getBoolean("pref_geolocation_update", true)) {
+
+                // create class object
+                GPSTracker gps = new GPSTracker(MainActivity.this);
+                // check if GPS enabled
+                if (gps.canGetLocation()) {
+                    latitude = gps.getLatitude();
+                    longitude = gps.getLongitude();
+
+                    Log.d("GPS", "Latitude: " + latitude + ", Longitude: " + longitude);
+
+                } else {
+                    // can't get location
+                    // GPS or Network is not enabled
+                    // Ask user to enable GPS/network in settings
+                    if (preferences.getBoolean("pref_gps_remember", true)) {
+                        gps.showSettingsAlert();
+                    }
+                }
+
+                registerInBackground();
+            }
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
         }
@@ -213,18 +238,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-
-
-    /*private void onShareAction(){
-        // Create the share Intent
-        String playStoreLink = "https://play.google.com/store/apps/details?id=" + getPackageName();
-        String yourShareText = getResources().getString(R.string.share_text) + playStoreLink;
-        Intent shareIntent = ShareCompat.IntentBuilder.from(this).setType("text/plain").setText(yourShareText).getIntent();
-        // Set the share Intent
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
-    }*/
 
     public void displayInterstitial() {
         // If Ads are loaded, show Interstitial else show nothing.
@@ -496,9 +509,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void sendRegistrationIdToBackend() {
 
+        Log.d(TAG, "Start update data to server...");
         // Register GCM Token ID to server
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-        nameValuePairs.add(new BasicNameValuePair("token", reg_cgm_id));
+        nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_token), reg_cgm_id));
+        nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_latitude), ""+latitude));
+        nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_longitude), ""+longitude));
         new HttpTask(null, MainActivity.this, getString(R.string.server_url), nameValuePairs, false).execute();
 
     }
