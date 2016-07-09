@@ -120,8 +120,6 @@ public class FragmentWebInteractive extends Fragment {
         }
 
 
-
-
         webView.setDownloadListener(new DownloadListener() {
             public void onDownloadStart(String url, String userAgent,
                                         String contentDisposition, String mimetype,
@@ -135,18 +133,13 @@ public class FragmentWebInteractive extends Fragment {
 
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.getSettings().setLoadWithOverviewMode(true);
-
 
 
         // ---------------- LOADING CONTENT -----------------
         if (type.equals("file")) {
             webView.loadUrl("file:///android_asset/" + url);
-        } else if (type.equals("url")) {
-            webView.loadUrl(url);
         }
 
         //Update menu item on navigation drawer when press back button
@@ -163,7 +156,6 @@ public class FragmentWebInteractive extends Fragment {
              * @param fileChooserParams
              * @return
              */
-
 
             @Override
             public boolean onShowFileChooser(
@@ -305,7 +297,8 @@ public class FragmentWebInteractive extends Fragment {
             }
 
         });
-        //webView.setWebViewClient(new MyWebViewClient());
+
+        webView.setWebViewClient(new MyWebViewClient());
         return rootView;
 
     }
@@ -463,6 +456,22 @@ public class FragmentWebInteractive extends Fragment {
                 }
             } else if (loader.equals("never")) {
                 Log.d("WebView", "No Loader selected");
+            }
+
+            // Start intent fot "tel:" links
+            if (url != null && url.startsWith("tel:")) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
+                startActivity(intent);
+                view.reload();
+                return true;
+            }
+
+            // Start intent fot "sms:" links
+            if (url != null && url.startsWith("sms:")) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse(url));
+                startActivity(intent);
+                view.reload();
+                return true;
             }
 
             if (url != null && url.startsWith("file:///android_asset/[external]http")) {
