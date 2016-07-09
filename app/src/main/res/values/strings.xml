@@ -4,7 +4,7 @@
     <string name="app_payoff">Your Pay Off</string>
 
     <!-- If you want to use RTL (right to left) version, set true -->
-    <string name="rtl_version">false</string>
+    <string name="rtl_version" translatable="false">false</string>
 
     <!-- Splash screen delay (milliseconds) 1500 = 1,5 seconds -->
     <string name="splash_delay" translatable="false">1500</string>
@@ -16,18 +16,18 @@
     <string name="google_api_sender_id" translatable="false">717452101860</string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
-    <string name="gmap_key">AIzaSyANCTmfWPix6ybkSicTCNBvK91bmpoRvGw</string>
+    <string name="gmap_key" translatable="false">AIzaSyANCTmfWPix6ybkSicTCNBvK91bmpoRvGw</string>
     <string name="coordinate_lat" translatable="false">40.708105</string>
     <string name="coordinate_long" translatable="false">-74.006307</string>
 
     <!-- Server to register token (for push notification) OPTIONAL -->
-    <string name="db_field_token">user_android_token</string>
-    <string name="db_field_latitude">user_lat</string>
-    <string name="db_field_longitude">user_lon</string>
-    <string name="server_url">http://geopush.digitalborder.net/api/register_user</string>
+    <string name="db_field_token" translatable="false">user_android_token</string>
+    <string name="db_field_latitude" translatable="false">user_lat</string>
+    <string name="db_field_longitude" translatable="false">user_lon</string>
+    <string name="server_url" translatable="false">http://geopush.digitalborder.net/api/register_user</string>
 
     <!-- AD Mob Publusher ID -->
-    <string name="admob_interstiial_delay">20000</string>
+    <string name="admob_interstiial_delay" translatable="false">20000</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-4749346084032970/6631537051</string>
 
