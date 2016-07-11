@@ -74,7 +74,7 @@ public class FragmentWebInteractive extends Fragment {
 
 
         webView = (WebView) rootView.findViewById(R.id.webView);
-        webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        //webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         // --------------- SWIPE CONTAINER ---------------
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
@@ -133,8 +133,6 @@ public class FragmentWebInteractive extends Fragment {
 
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webView.getSettings().setLoadWithOverviewMode(true);
 
 
         // ---------------- LOADING CONTENT -----------------

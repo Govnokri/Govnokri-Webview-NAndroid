@@ -4,14 +4,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.digitalborder.webappessentials"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 19
-        versionName "2.1.5"
+        versionCode 20
+        versionName "2.1.8"
     }
     buildTypes {
         release {
