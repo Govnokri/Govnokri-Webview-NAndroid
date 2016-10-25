@@ -33,6 +33,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private InterstitialAd interstitial;
     private NavigationView navigationView;
     public Timer AdTimer;
+    private boolean open_from_push = false;
 
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AdTimer = null;
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Go to first fragment
         Intent intent = getIntent();
         if (intent.getExtras() != null && intent.getExtras().getString("link", null) != null && !intent.getExtras().getString("link", null).equals("")) {
+            open_from_push = true;
             String url = null;
             if (intent.getExtras().getString("link").contains("http")) {
                 url = intent.getExtras().getString("link");
@@ -166,40 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             first_fragment = true;
         }
 
-        // GCM
-        if (checkPlayServices()) {
-            gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-            String reg_cgm_id = getRegistrationId(getApplicationContext());
-            Log.i(TAG, "Play Services Ok.");
-            if (reg_cgm_id.isEmpty()) {
-                Log.i(TAG, "Find Register ID.");
-                registerInBackground();
-            }
-            if (preferences.getBoolean("pref_geolocation_update", true)) {
-
-                // create class object
-                GPSTracker gps = new GPSTracker(MainActivity.this);
-                // check if GPS enabled
-                if (gps.canGetLocation()) {
-                    latitude = gps.getLatitude();
-                    longitude = gps.getLongitude();
-
-                    Log.d("GPS", "Latitude: " + latitude + ", Longitude: " + longitude);
-
-                } else {
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    if (preferences.getBoolean("pref_gps_remember", true)) {
-                        gps.showSettingsAlert();
-                    }
-                }
-
-                registerInBackground();
-            }
-        } else {
-            Log.i(TAG, "No valid Google Play Services APK found.");
-        }
 
         // -------------------------------  AdMob Banner ------------------------------------------------------------
         AdView adView = (AdView) findViewById(R.id.adView);
@@ -236,6 +206,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        // Save token on server
+        sendRegistrationIdToBackend();
 
     }
 
@@ -443,50 +416,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return registrationId;
     }
 
-    /**
-     * Registers the application with GCM servers asynchronously.
-     * <p/>
-     * Stores the registration ID and the app versionCode in the application's
-     * shared preferences.
-     */
-    private void registerInBackground() {
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String msg = "";
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(MainActivity.this);
-                    }
-                    reg_cgm_id = gcm.register(getString(R.string.google_api_sender_id));
-                    msg = "Device registered, registration ID=" + reg_cgm_id;
-                    Log.d(TAG, "ID GCM: " + reg_cgm_id);
-
-                    // You should send the registration ID to your server over HTTP, so it
-                    // can use GCM/HTTP or CCS to send messages to your app.
-                    sendRegistrationIdToBackend();
-
-                    // For this demo: we don't need to send it because the device will send
-                    // upstream messages to a server that echo back the message using the
-                    // 'from' address in the message.
-
-                    // Persist the regID - no need to register again.
-                    storeRegistrationId(MainActivity.this, reg_cgm_id);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                    // If there is an error, don't just keep trying to register.
-                    // Require the user to click a button again, or perform
-                    // exponential back-off.
-                }
-                return msg;
-            }
-
-            @Override
-            protected void onPostExecute(String msg) {
-
-            }
-        }.execute(null, null, null);
-    }
 
     /**
      * @return Application's version code from the {@code PackageManager}.
@@ -510,12 +439,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void sendRegistrationIdToBackend() {
 
         Log.d(TAG, "Start update data to server...");
-        // Register GCM Token ID to server
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-        nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_token), reg_cgm_id));
-        nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_latitude), ""+latitude));
-        nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_longitude), ""+longitude));
-        new HttpTask(null, MainActivity.this, getString(R.string.server_url), nameValuePairs, false).execute();
+        String token = preferences.getString("fcm_token", null);
+        // Register FCM Token ID to server
+        if (token != null) {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_token), token));
+            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_latitude), "" + latitude));
+            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_longitude), "" + longitude));
+            new HttpTask(null, MainActivity.this, getString(R.string.server_url), nameValuePairs, false).execute();
+        }
 
     }
+
+
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "488820564349",
+    "firebase_url": "https://native-webapp-essentials.firebaseio.com",
+    "project_id": "native-webapp-essentials",
+    "storage_bucket": "native-webapp-essentials.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488820564349:android:b15e646fa6fe2f57",
+        "android_client_info": {
+          "package_name": "com.digitalborder.webappessentials"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488820564349-m60dlj77fircdh9c6p8pttb8ji3lqefh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_9NXqTBlrqJGLVpI8VBJYbYjV4t1LRhc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

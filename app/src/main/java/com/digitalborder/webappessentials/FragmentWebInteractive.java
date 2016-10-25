@@ -63,6 +63,19 @@ public class FragmentWebInteractive extends Fragment {
     private Uri mOutputFileUri;
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        webView.onResume();
+    }
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        webView.onPause();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         my_context = container.getContext();
@@ -138,6 +151,8 @@ public class FragmentWebInteractive extends Fragment {
         // ---------------- LOADING CONTENT -----------------
         if (type.equals("file")) {
             webView.loadUrl("file:///android_asset/" + url);
+        } else {
+            webView.loadUrl(url);
         }
 
         //Update menu item on navigation drawer when press back button

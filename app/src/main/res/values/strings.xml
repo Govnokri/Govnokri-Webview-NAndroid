@@ -13,7 +13,7 @@
     <string name="analytics_property_id" translatable="false"></string>
 
     <!-- For use GCM you need to set your Google Api Project Number -->
-    <string name="google_api_sender_id" translatable="false">717452101860</string>
+    <string name="google_api_sender_id" translatable="false"></string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
     <string name="gmap_key" translatable="false">AIzaSyANCTmfWPix6ybkSicTCNBvK91bmpoRvGw</string>

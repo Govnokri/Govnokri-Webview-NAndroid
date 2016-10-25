@@ -19,7 +19,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-//public class HttpTask extends AsyncTask<Object,Object,Object> {
 public class HttpTask extends AsyncTask<Void, Void, JSONObject> {
 
     String result;
