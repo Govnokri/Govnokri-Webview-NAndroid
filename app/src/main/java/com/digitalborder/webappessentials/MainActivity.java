@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,15 +30,11 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -79,22 +75,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         inflater.inflate(R.menu.main, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.share_button:
-                try
-                { Intent i = new Intent(Intent.ACTION_SEND);
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("text/plain");
                     i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-                    String sAux = getString(R.string.share_text)+"\n";
-                    sAux = sAux + getString(R.string.share_link)+"\n";
+                    String sAux = getString(R.string.share_text) + "\n";
+                    sAux = sAux + getString(R.string.share_link) + "\n";
                     i.putExtra(Intent.EXTRA_TEXT, sAux);
                     startActivity(Intent.createChooser(i, "choose one"));
-                }
-                catch(Exception e)
-                { //e.toString();
+                } catch (Exception e) { //e.toString();
                 }
                 return true;
 
@@ -206,6 +201,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+
+        if (preferences.getBoolean("pref_geolocation_update", true)) {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                // create class object
+                GPSTracker gps = new GPSTracker(MainActivity.this);
+
+                // check if GPS enabled
+                if (gps.canGetLocation()) {
+                    latitude = gps.getLatitude();
+                    longitude = gps.getLongitude();
+
+
+                    int appVersion = getAppVersion(this);
+                    Log.i(TAG, "Saving regId on app version " + appVersion);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("latitude", "" + latitude);
+                    editor.putString("longitude", "" + longitude);
+                    editor.putString(PROPERTY_APP_VERSION, ""+appVersion);
+                    editor.commit();
+
+
+                    Log.d("GPS", "Latitude: " + latitude + ", Longitude: " + longitude);
+
+
+                } else {
+                    // can't get location
+                    // GPS or Network is not enabled
+                    // Ask user to enable GPS/network in settings
+                    if (preferences.getBoolean("pref_gps_remember", false)) {
+                        gps.showSettingsAlert();
+                    }
+                }
+            } else {
+                // Request permission to the user
+                ActivityCompat.requestPermissions(this, new String[]{
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1
+                );
+            }
+        }
+
 
         // Save token on server
         sendRegistrationIdToBackend();
@@ -356,66 +396,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(position).setChecked(true);
     }
 
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(MainActivity.this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, 9000).show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-            }
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Stores the registration ID and the app versionCode in the application's
-     * {@code SharedPreferences}.
-     *
-     * @param context application's context.
-     * @param regId   registration ID
-     */
-    private void storeRegistrationId(Context context, String regId) {
-        int appVersion = getAppVersion(context);
-        Log.i(TAG, "Saving regId on app version " + appVersion);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PROPERTY_REG_ID, regId);
-        editor.putInt(PROPERTY_APP_VERSION, appVersion);
-        editor.commit();
-    }
-
-    /**
-     * Gets the current registration ID for application on GCM service, if there is one.
-     * <p/>
-     * If result is empty, the app needs to register.
-     *
-     * @return registration ID, or empty string if there is no existing
-     * registration ID.
-     */
-    private String getRegistrationId(Context context) {
-        String registrationId = preferences.getString(PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            Log.i(TAG, "Registration not found.");
-            return "";
-        }
-        // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
-        // app version.
-        int registeredVersion = preferences.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-        int currentVersion = getAppVersion(context);
-        if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
-            return "";
-        }
-        return registrationId;
-    }
-
 
     /**
      * @return Application's version code from the {@code PackageManager}.
@@ -435,17 +415,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * Sends the registration ID to your server over HTTP, so it can use GCM/HTTP or CCS to send
      * messages to your app. Not needed for this demo since the device sends upstream messages
      * to a server that echoes back the message using the 'from' address in the message.
+     * REFRESH TOKEN TO THE SERVER
      */
     private void sendRegistrationIdToBackend() {
 
         Log.d(TAG, "Start update data to server...");
+
+        String latitude = preferences.getString("latitude", null);
+        String longitude = preferences.getString("longitude", null);
+        String appVersion = preferences.getString("appVersion", null);
         String token = preferences.getString("fcm_token", null);
+
         // Register FCM Token ID to server
         if (token != null) {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_token), token));
             nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_latitude), "" + latitude));
             nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_longitude), "" + longitude));
+            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_appversion), "" + appVersion));
             new HttpTask(null, MainActivity.this, getString(R.string.server_url), nameValuePairs, false).execute();
         }
 

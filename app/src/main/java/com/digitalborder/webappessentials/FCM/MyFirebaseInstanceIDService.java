@@ -6,8 +6,16 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.digitalborder.webappessentials.HttpTask;
+import com.digitalborder.webappessentials.R;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
@@ -27,12 +35,20 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         storeRegistrationId(this, refreshedToken);
     }
 
-
-    private void storeRegistrationId(Context context, String token) {
-        Log.i(TAG, "Saving token on preferences");
+    /**
+     * Sends the registration ID to your server over HTTP, so it can use FCM/HTTP or CCS to send
+     * messages to your app. Not needed for this demo since the device sends upstream messages
+     * to a server that echoes back the message using the 'from' address in the message.
+     */
+    private void storeRegistrationId(Context mContext, String token) {
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("fcm_token", token);
         editor.commit();
+
     }
+
+
+
 }

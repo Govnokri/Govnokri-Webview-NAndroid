@@ -13,6 +13,6 @@
         android:summaryOff ="Not remember to enable GPS"
         android:key="pref_gps_remember"
         android:title="@string/pref_title_gps_remoember"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
 
 </PreferenceScreen>
