@@ -16,7 +16,7 @@
     <string name="google_api_sender_id" translatable="false"></string>
 
     <!-- For use Google Maps you need to set your Google Maps API Key -->
-    <string name="gmap_key" translatable="false">AIzaSyANCTmfWPix6ybkSicTCNBvK91bmpoRvGw</string>
+    <string name="gmap_key" translatable="false"></string>
     <string name="coordinate_lat" translatable="false">40.708105</string>
     <string name="coordinate_long" translatable="false">-74.006307</string>
 
@@ -25,7 +25,7 @@
     <string name="db_field_latitude" translatable="false">user_lat</string>
     <string name="db_field_longitude" translatable="false">user_lon</string>
     <string name="db_field_appversion" translatable="false">user_app_version</string>
-    <string name="server_url" translatable="false">http://geopush.digitalborder.net/api/register_user</string>
+    <string name="server_url" translatable="false"></string>
 
     <!-- AD Mob Publusher ID -->
     <string name="admob_interstiial_delay" translatable="false">20000</string>
