@@ -30,7 +30,6 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // GCM
     public static final String PROPERTY_REG_ID = "notifyId";
     private static final String PROPERTY_APP_VERSION = "appVersion";
-    GoogleCloudMessaging gcm;
     SharedPreferences preferences;
     String reg_cgm_id;
     static final String TAG = "MainActivity";
