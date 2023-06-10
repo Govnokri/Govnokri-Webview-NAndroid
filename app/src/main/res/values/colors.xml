@@ -1,34 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- See this page for understand colors https://developer.android.com/training/material/theme.html -->
 
 <resources>
     <!-- Standard version -->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#0080ce</color>
+    <color name="colorPrimaryDark">#0080ce</color>
+    <color name="colorAccent">#3da5ff</color>
 
-    <!-- Red version
-    <color name="colorPrimary">#F44336</color>
-    <color name="colorPrimaryDark">#FF5252</color>
-    <color name="colorAccent">#448AFF</color>
-    -->
+    <color name="startGradientColor">#0575E6</color>
+    <color name="endGradientColor">#1CB5E0</color>
 
-    <!-- Blue version
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#FF5252</color>
-    -->
-
-    <!-- Green version
-    <color name="colorPrimary">#4CAF50</color>
-    <color name="colorPrimaryDark">#388E3C</color>
-    <color name="colorAccent">#616161</color>
-    -->
-
-    <!-- Grey version
-    <color name="colorPrimary">#607D8B</color>
-    <color name="colorPrimaryDark">#546E7A</color>
-    <color name="colorAccent">#EF6C00</color>
-    -->
 </resources>

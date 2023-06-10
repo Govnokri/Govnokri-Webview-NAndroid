@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.digitalborder.webappessentials">
+    <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.app.govnokri">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -10,16 +10,16 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Required to show current location -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--
-      Creates a custom permission so only this app can receive its messages.
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!--  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+     <!--
+       Creates a custom permission so only this app can receive its messages.
 
-      NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
-            where PACKAGE is the application's package name.
-    -->
+       NOTE: the permission *must* be called PACKAGE.permission.C2D_MESSAGE,
+             where PACKAGE is the application's package name.
+     -->
     <permission
-        android:name="com.digitalborder.webappessentials.permission.C2D_MESSAGE"
+        android:name="com.app.govnokri.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.digitalborder.webappessentials.permission.C2D_MESSAGE" />
@@ -28,58 +28,66 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
+
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_govnokriico"
         android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
-
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.app.govnokri.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.app.govnokri.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:uiOptions="splitActionBarWhenNarrow">
+            <meta-data android:name="android.support.UI_OPTIONS"
+                android:value="splitActionBarWhenNarrow" />
             <intent-filter>
                 <action android:name="OPEN_MAIN_1" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.app.govnokri.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.app.govnokri.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.digitalborder.webappessentials.MainActivity" />
+                android:value="com.app.govnokri.MainActivity" />
         </activity>
         <!-- Include the AdActivity configChanges and theme. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
-
+        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
         <!--
                    Defining Services
                -->
         <service
-            android:name=".FCM.MyFirebaseMessagingService">
+            android:name="com.app.govnokri.FCM.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <service
-            android:name=".FCM.MyFirebaseInstanceIDService">
+            android:name="com.app.govnokri.FCM.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

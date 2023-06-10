@@ -1,52 +1,82 @@
 {
   "project_info": {
-    "project_number": "488820564349",
-    "firebase_url": "https://native-webapp-essentials.firebaseio.com",
-    "project_id": "native-webapp-essentials",
-    "storage_bucket": "native-webapp-essentials.appspot.com"
+    "project_number": "997555507003",
+    "firebase_url": "https://govnokri-b5be0.firebaseio.com",
+    "project_id": "govnokri-b5be0",
+    "storage_bucket": "govnokri-b5be0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:488820564349:android:b15e646fa6fe2f57",
+        "mobilesdk_app_id": "1:997555507003:android:78be90a07c1a02bab3711e",
         "android_client_info": {
-          "package_name": "com.digitalborder.webappessentials"
+          "package_name": "com.app.govnokri"
         }
       },
       "oauth_client": [
         {
-          "client_id": "488820564349-ldhkelavm71mqo99891876h60kmmvplm.apps.googleusercontent.com",
+          "client_id": "997555507003-4vh7f4br7egge6l61tehv2gk6b2gdjvv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.digitalborder.webappessentials",
-            "certificate_hash": "C16B55BCA24716EF950BBB785893F7AAF70A46EE"
+            "package_name": "com.app.govnokri",
+            "certificate_hash": "d8cb8ebea1b5ca61c9c91d70e3a64a3fdd0aa80b"
           }
         },
         {
-          "client_id": "488820564349-m60dlj77fircdh9c6p8pttb8ji3lqefh.apps.googleusercontent.com",
+          "client_id": "997555507003-5pnd2eg4a2ceknpbb6b2cba3satm03pr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC_9NXqTBlrqJGLVpI8VBJYbYjV4t1LRhc"
+          "current_key": "AIzaSyClLgZ0b7HRFakMzlHJ_2q4lZhN1XXRnvg"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "488820564349-m60dlj77fircdh9c6p8pttb8ji3lqefh.apps.googleusercontent.com",
+              "client_id": "997555507003-5pnd2eg4a2ceknpbb6b2cba3satm03pr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997555507003:android:077425be2c22959c",
+        "android_client_info": {
+          "package_name": "com.app.rohitd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "997555507003-m9ah5pnpc6mlq98h9on4ot097hothra4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.rohitd",
+            "certificate_hash": "b1cf03d51d9b55194f95441767995791e60f59c3"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "997555507003-5pnd2eg4a2ceknpbb6b2cba3satm03pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClLgZ0b7HRFakMzlHJ_2q4lZhN1XXRnvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "997555507003-5pnd2eg4a2ceknpbb6b2cba3satm03pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

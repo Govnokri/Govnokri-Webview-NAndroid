@@ -2,13 +2,52 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.digitalborder.webappessentials.MainActivity">
+    tools:context="com.app.govnokri.MainActivity"
+    >
+
+
+    <item
+        android:id="@+id/re_home"
+        android:title="Refresh Home"
+        android:icon="@drawable/ic_baseline_home_24"
+        app:showAsAction="ifRoom"
+        android:iconTint="#000"
+        />
+
+    <item
+        android:id="@+id/whatsapp"
+        android:title="Join WhatsApp"
+        android:icon="@drawable/ic_whatsapp"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:iconTint="#000"
+        />
+
 
     <item
         android:id="@+id/share_button"
-        android:title="Share"
-        android:icon="@drawable/share_it"
+        android:title="Share Job"
+        android:icon="@drawable/ic_baseline_share_24"
         app:showAsAction="ifRoom"
+        android:iconTint="#000"
         />
+
+    <item
+        android:id="@+id/rate"
+        android:title="Rate App"
+        android:icon="@drawable/ic_baseline_star_rate_24"
+        app:showAsAction="ifRoom"
+        android:iconTint="#000"
+        />
+
+    <item
+        android:id="@+id/refresh"
+        android:title="Refresh"
+        android:icon="@drawable/ic_baseline_refresh_24"
+        app:showAsAction="ifRoom"
+        android:iconTint="#000"
+        />
+
+
 
 </menu>
