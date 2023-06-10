@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -465,8 +466,6 @@ public class FragmentWebInteractive extends Fragment {
 
     private void enableHTML5AppCache() {
         webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setAppCachePath("/data/data/" + getActivity().getPackageName() + "/cache");
-        webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
 
@@ -512,15 +511,21 @@ public class FragmentWebInteractive extends Fragment {
                 view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             }
 
-            if (url != null && url.startsWith("whatsapp://")) {
+            if ( url.startsWith("whatsapp://")) {
                 url = url.replace("whatsapp://", "");
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "" + historyUrl);
                 sendIntent.setType("text/plain");
                 sendIntent.setPackage("com.whatsapp");
-                startActivity(sendIntent);
-                return true;
+                try{
+                    startActivity(sendIntent);
+                    return true;
+                }catch (ActivityNotFoundException e) {
+                    Toast.makeText(my_context, "WhatsApp Not Installed", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
             }
 
             if (url != null && url.startsWith("https://api.whatsapp.com/")) {
@@ -530,19 +535,64 @@ public class FragmentWebInteractive extends Fragment {
                 sendIntent.putExtra(Intent.EXTRA_TEXT, "" + historyUrl);
                 sendIntent.setType("text/plain");
                 sendIntent.setPackage("com.whatsapp");
-                startActivity(sendIntent);
-                return true;
+                try{
+                    startActivity(sendIntent);
+                    return true;
+                }catch (ActivityNotFoundException e) {
+                    Toast.makeText(my_context, "WhatsApp Not Installed", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
+            }
+            if (url.startsWith("https://telegram.me/share/")) {
+
+                Intent telegramIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                telegramIntent.setPackage("org.telegram.messenger");
+
+                try {
+                    startActivity(telegramIntent);
+                    return true;
+
+                } catch (ActivityNotFoundException e) {
+
+                    Toast.makeText(my_context, "Telegram Not Installed", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
             }
 
-            if (url != null && url.startsWith("https://telegram.me/share/")) {
-                url = url.replace("https://telegram.me/share/", "");
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "" + historyUrl);
-                sendIntent.setType("text/plain");
-//                sendIntent.setPackage("org.telegram.messenger");
-                startActivity(sendIntent);
-                return true;
+            if (url.startsWith("tg:")) {
+
+                Intent telegramIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                telegramIntent.setPackage("org.telegram.messenger");
+
+                try {
+                    startActivity(telegramIntent);
+                    return true;
+
+                } catch (ActivityNotFoundException e) {
+
+                    Toast.makeText(my_context, "Telegram Not Installed", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
+            }
+            if (url.startsWith("http://www.instagram.com")) {
+
+                Intent telegramIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                telegramIntent.setPackage("com.instagram.android");
+
+                try {
+                    startActivity(telegramIntent);
+                    return true;
+
+                } catch (ActivityNotFoundException e) {
+
+
+                    Toast.makeText(my_context, "Instagram Not Installed", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
             } else {
                 view.loadUrl(url);
                 // swipeContainer.setEnabled(true);

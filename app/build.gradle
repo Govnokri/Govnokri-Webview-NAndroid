@@ -1,18 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.3'
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.app.govnokri"
         minSdkVersion 22
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 3
         versionName "1.0.3"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        manifestPlaceholders = [
-                izooto_app_id : '469cfad9eb89346231fdfbbdd139d01fd7bd06ab']
+
     }
     buildTypes {
         release {
@@ -28,19 +26,16 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.13.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'com.google.firebase:firebase-core:18.0.0'
-
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.google.android.gms:play-services-ads:19.6.0'
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-analytics:18.0.2'
     implementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
-
-    //FOR ANDROID X SUPPORT LIBRARIES
-    implementation 'com.github.izooto-mobile-sdk:android-X:1.0.10'
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
 
     
 

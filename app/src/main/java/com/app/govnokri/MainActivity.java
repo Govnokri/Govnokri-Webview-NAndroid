@@ -11,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,23 +33,14 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.InterstitialAd;
-import com.izooto.Lg;
-import com.izooto.TokenReceivedListener;
-import com.izooto.iZooto;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Timer;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener , TokenReceivedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public boolean doubleBackToExitPressedOnce = false;
-    private InterstitialAd interstitial;
     private NavigationView navigationView;
     public Timer AdTimer;
     public WebView mWebView;
@@ -156,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        iZooto.initialize(this).build();
+
         //iZooto.initialize(this).setTokenReceivedListener(this).build();
         preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -215,8 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (preferences.getBoolean("pref_geolocation_update", true)) {
 
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
                 // create class object
                 GPSTracker gps = new GPSTracker(MainActivity.this);
@@ -249,25 +242,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             } else {
                 // Request permission to the user
-                ActivityCompat.requestPermissions(this, new String[]{
-                        android.Manifest.permission.ACCESS_FINE_LOCATION,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1
-                );
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             }
         }
 
 
         // Save token on server
-        sendRegistrationIdToBackend();
+        //sendRegistrationIdToBackend();
 
     }
 
-    public void displayInterstitial() {
-        // If Ads are loaded, show Interstitial else show nothing.
-        if (interstitial.isLoaded()) {
-            interstitial.show();
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -412,8 +396,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private static int getAppVersion(Context context) {
         try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             // should never happen
@@ -427,27 +410,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * to a server that echoes back the message using the 'from' address in the message.
      * REFRESH TOKEN TO THE SERVER
      */
-    private void sendRegistrationIdToBackend() {
-
-        Log.d(TAG, "Start update data to server...");
-
-        String latitude = preferences.getString("latitude", null);
-        String longitude = preferences.getString("longitude", null);
-        String appVersion = preferences.getString("appVersion", null);
-        String token = preferences.getString("fcm_token", null);
-
-        // Register FCM Token ID to server
-        if (token != null) {
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_token), token));
-            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_latitude), "" + latitude));
-            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_longitude), "" + longitude));
-            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_appversion), "" + appVersion));
-            new HttpTask(null, MainActivity.this, getString(R.string.server_url), nameValuePairs, false).execute();
-        }
-
-    }
-
+//    private void sendRegistrationIdToBackend() {
+//
+//        Log.d(TAG, "Start update data to server...");
+//
+//        String latitude = preferences.getString("latitude", null);
+//        String longitude = preferences.getString("longitude", null);
+//        String appVersion = preferences.getString("appVersion", null);
+//        String token = preferences.getString("fcm_token", null);
+//
+//        // Register FCM Token ID to server
+//        if (token != null) {
+//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+//            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_token), token));
+//            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_latitude), "" + latitude));
+//            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_longitude), "" + longitude));
+//            nameValuePairs.add(new BasicNameValuePair(getString(R.string.db_field_appversion), "" + appVersion));
+//            new HttpTask(null, MainActivity.this, getString(R.string.server_url), nameValuePairs, false).execute();
+//        }
+//
+//    }
     private void openWhatsApp(String numero, String mensaje) {
 
         try {
@@ -498,10 +480,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return intent;
     }
 
-    @Override
-    public void onTokenReceived(String token) {
-        Lg.i("Device token", token + "");
-
-    }
+//    @Override
+//    public void onTokenReceived(String token) {
+//        Lg.i("Device token", token + "");
+//
+//    }
 
 }
